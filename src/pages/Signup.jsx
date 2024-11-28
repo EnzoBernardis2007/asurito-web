@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -15,19 +15,52 @@ const Signup = () => {
         kyu: '',
         dan: '',
         dojo: '',
-        state: '',
+        userState: '', 
         city: '',
     });
 
+    const [gendersList, setGendersList] = useState([]);
+    const [selectedGender, setSelectedGender] = useState(""); // Adicionado para armazenar o gênero selecionado
+
+    useEffect(() => {
+        const getGenders = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/getGenders');
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error, status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Certifique-se de que data.gendersList é um array
+                if (Array.isArray(data.gendersList)) {
+                    setGendersList(data.gendersList);
+                } else {
+                    console.error('gendersList não é um array', data);
+                }
+            } catch (error) {
+                console.log('Erro ao buscar os gêneros:', error);
+            }
+        };
+
+        getGenders();
+    }, []);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        if (name === "gender") {
+            setSelectedGender(value);  // Atualizando o gênero selecionado
+        }
+
         setFormData({
             ...formData,
             [name]: value,
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form submitted:", formData);
     };
@@ -77,33 +110,23 @@ const Signup = () => {
             
             <fieldset>
                 <legend>Gênero:</legend>
-                <label>
-                    <input 
-                        type="radio" 
-                        name="gender" 
-                        value="Masculino"
-                        checked={formData.gender === "Masculino"}
-                        onChange={handleChange} 
-                    /> Masculino
-                </label>
-                <label>
-                    <input 
-                        type="radio" 
-                        name="gender" 
-                        value="Feminino"
-                        checked={formData.gender === "Feminino"}
-                        onChange={handleChange} 
-                    /> Feminino
-                </label>
-                <label>
-                    <input 
-                        type="radio" 
-                        name="gender" 
-                        value="Outro"
-                        checked={formData.gender === "Outro"}
-                        onChange={handleChange} 
-                    /> Outro
-                </label>
+                {/* check if has more than zero genders and choses what show */}
+                {gendersList.length > 0 ? (
+                    gendersList.map((gender, index) => (
+                        <label key={index}>
+                            <input
+                                type="radio"
+                                name="gender" 
+                                value={gender.name}
+                                checked={selectedGender === gender.name}
+                                onChange={handleChange}
+                            />
+                            {gender.ptbr_name}
+                        </label>
+                    ))
+                ) : (
+                    <p>Carregando gêneros...</p>
+                )}
             </fieldset>
 
             <label>Data de nascimento:</label>
@@ -134,8 +157,8 @@ const Signup = () => {
                     <input 
                         type="radio" 
                         name="sex" 
-                        value="Masculino"
-                        checked={formData.sex === "Masculino"}
+                        value="male"
+                        checked={formData.sex === "male"}
                         onChange={handleChange} 
                     /> Masculino
                 </label>
@@ -143,8 +166,8 @@ const Signup = () => {
                     <input 
                         type="radio" 
                         name="sex" 
-                        value="Feminino"
-                        checked={formData.sex === "Feminino"}
+                        value="female"
+                        checked={formData.sex === "female"}
                         onChange={handleChange} 
                     /> Feminino
                 </label>
@@ -176,8 +199,8 @@ const Signup = () => {
             <label>Estado:</label>
             <input 
                 type="text"
-                name="state"
-                value={formData.state}
+                name="userState"
+                value={formData.userState}
                 onChange={handleChange}
             />
             <label>Cidade:</label>
