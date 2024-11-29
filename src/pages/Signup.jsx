@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+import Header from "../components/HomeHeader"
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -16,47 +17,47 @@ const Signup = () => {
         dan: '',
         dojo: '',
         city: ''
-    });
+    })
 
-    const [gendersList, setGendersList] = useState([]);
+    const [gendersList, setGendersList] = useState([])
     const url = 'http://localhost:3000'
 
     useEffect(() => {
         const getGenders = async () => {
             try {
-                const response = await fetch(`${url}/getGenders`);
+                const response = await fetch(`${url}/getGenders`)
     
                 if (!response.ok) {
-                    throw new Error(`HTTP error, status ${response.status}`);
+                    throw new Error(`HTTP error, status ${response.status}`)
                 }
 
-                const data = await response.json();
+                const data = await response.json()
 
                 // Certifique-se de que data.gendersList é um array
                 if (Array.isArray(data.gendersList)) {
-                    setGendersList(data.gendersList);
+                    setGendersList(data.gendersList)
                 } else {
-                    console.error('gendersList não é um array', data);
+                    console.error('gendersList não é um array', data)
                 }
             } catch (error) {
-                console.log('Erro ao buscar os gêneros:', error);
+                console.log('Erro ao buscar os gêneros:', error)
             }
-        };
+        }
 
-        getGenders();
-    }, []);
+        getGenders()
+    }, [])
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
 
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
+        })
+    }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
         const response = await fetch(`${url}/postNewAthlete`, {
             method: 'POST',
@@ -65,10 +66,12 @@ const Signup = () => {
             },
             body: JSON.stringify(formData)
         })
-    };
+    }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <>
+            <Header />
+            <form onSubmit={handleSubmit}>
             {/* App info */}
             <label>Email:</label>
             <input 
@@ -208,7 +211,9 @@ const Signup = () => {
 
             <button type="submit">Cadastrar</button>
         </form>
-    );
-};
+        </>
+        
+    )
+}
 
-export default Signup;
+export default Signup

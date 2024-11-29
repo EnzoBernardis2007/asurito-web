@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useAuth } from '../components/AuthProvider';
 import { useNavigate } from "react-router-dom";
+import Header from "../components/HomeHeader";
 
 const Login = () => {
     const { login } = useAuth()
@@ -32,31 +33,36 @@ const Login = () => {
         })
 
         if(response.ok) {
-            navigate('/about')
+            const data = await response.json()
+            login(data.token, formData.email)
+            navigate('/profile')
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>Email:</label>
-            <input 
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-            />
-            <label>Senha:</label>
-            <input 
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-            />
+        <>
+            <Header />
+            <form onSubmit={handleSubmit}>
+                <label>Email:</label>
+                <input 
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <label>Senha:</label>
+                <input 
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
 
-            <button type="submit">Entrar</button>
-        </form>
+                <button type="submit">Entrar</button>
+            </form>
+        </>
     )
 }
 

@@ -4,17 +4,13 @@ import { useNavigate } from "react-router-dom"
 const Header = () => {
     const navigate = useNavigate()
 
-    const goToLandpage= () => navigate('/')
-    const goToSignup = () => navigate('/signup')
-    const goToLogin = () => navigate('/login')
-    const goToContact = () => navigate('/contact')
+    const goToProfile = () => navigate('/profile')
+    const goToChampionships = () => navigate('/championships')
 
     return(
         <header>
-            <button onClick={goToLandpage}>Home</button>
-            <button onClick={goToSignup}>Cadastro</button>
-            <button onClick={goToLogin}>Login</button>
-            <button onClick={goToContact}>Contato</button>
+            <button onClick={goToProfile}>Perfil</button>
+            <button onClick={goToChampionships}>Campeonatos</button>
         </header>
     )
 }
