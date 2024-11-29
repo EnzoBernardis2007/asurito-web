@@ -15,17 +15,16 @@ const Signup = () => {
         kyu: '',
         dan: '',
         dojo: '',
-        userState: '', 
-        city: '',
+        city: ''
     });
 
     const [gendersList, setGendersList] = useState([]);
-    const [selectedGender, setSelectedGender] = useState(""); // Adicionado para armazenar o gênero selecionado
+    const url = 'http://localhost:3000'
 
     useEffect(() => {
         const getGenders = async () => {
             try {
-                const response = await fetch('http://localhost:3000/getGenders');
+                const response = await fetch(`${url}/getGenders`);
     
                 if (!response.ok) {
                     throw new Error(`HTTP error, status ${response.status}`);
@@ -50,10 +49,6 @@ const Signup = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        if (name === "gender") {
-            setSelectedGender(value);  // Atualizando o gênero selecionado
-        }
-
         setFormData({
             ...formData,
             [name]: value,
@@ -62,7 +57,14 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted:", formData);
+
+        const response = await fetch(`${url}/postNewAthlete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+            body: JSON.stringify(formData)
+        })
     };
 
     return (
@@ -118,7 +120,7 @@ const Signup = () => {
                                 type="radio"
                                 name="gender" 
                                 value={gender.name}
-                                checked={selectedGender === gender.name}
+                                checked={formData.gender === gender.name}
                                 onChange={handleChange}
                             />
                             {gender.ptbr_name}
@@ -194,13 +196,6 @@ const Signup = () => {
                 type="text"
                 name="dojo"
                 value={formData.dojo}
-                onChange={handleChange}
-            />
-            <label>Estado:</label>
-            <input 
-                type="text"
-                name="userState"
-                value={formData.userState}
                 onChange={handleChange}
             />
             <label>Cidade:</label>
