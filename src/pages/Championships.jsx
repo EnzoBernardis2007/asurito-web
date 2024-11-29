@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useAuth } from "../components/AuthProvider"
+import Header from "../components/Header"
 
 const Championships = () => {
-    const { token } = useAuth()
+    const { token, cpf } = useAuth()
     const [championshipsList, setChampionshipsList] = useState([])
 
     useEffect(() => {
@@ -31,11 +32,30 @@ const Championships = () => {
         getChampionships()
     }, [])
 
+    const subscribe = async (idChampionship) => {
+        const response = await fetch('http://localhost:3000/inscription', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ cpf, idChampionship })
+        })
+        
+        if(response.ok) {
+            window.alert('inscrito!')
+        }
+    }
+
     return (
         <>
+            <Header />
             {championshipsList.length > 0 ? (
                 championshipsList.map((championship, index) => (
-                    <p key={index}>{championship.name}</p> 
+                    <div key={index}>
+                        <p>{championship.name}</p> 
+                        <button onClick={() => (subscribe(championship.id))}>Se inscrever</button>
+                    </div>
                 ))
             ) : (
                 <p>Nenhum campeonato encontrado.</p> 

@@ -34,7 +34,7 @@ const Login = () => {
 
         if(response.ok) {
             const data = await response.json()
-            login(data.token, formData.email)
+            login(data.token, data.cpf)
             navigate('/profile')
         }
     }

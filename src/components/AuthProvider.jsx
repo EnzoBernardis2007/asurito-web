@@ -5,15 +5,15 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [authData, setAuthData] = useState({
         token: null,
-        email: null,
+        cpf: null,
     });
 
-    const login = (token, email) => {
-        setAuthData({ token, email });
+    const login = (token, cpf) => {
+        setAuthData({ token, cpf });
     };
 
     const logout = () => {
-        setAuthData({ token: null, email: null });
+        setAuthData({ token: null, cpf: null });
     };
 
     return (
