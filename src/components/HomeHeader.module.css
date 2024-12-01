@@ -1,0 +1,17 @@
+.container {
+    /* Centralize links */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Size */
+    width: 100%;
+    height: 75px;
+}
+
+.link {
+    /* Spacing */
+    margin: 10px;
+    /* Size */
+    width: 100px;
+    height: 50px;
+}

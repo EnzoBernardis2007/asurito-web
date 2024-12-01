@@ -1,4 +1,5 @@
 import React from "react"
+import style from './HomeHeader.module.css'
 import { useNavigate } from "react-router-dom"
 
 const HomeHeader = () => {
@@ -10,11 +11,11 @@ const HomeHeader = () => {
     const goToContact = () => navigate('/contact')
 
     return(
-        <header>
-            <button onClick={goToLandpage}>Home</button>
-            <button onClick={goToSignup}>Cadastro</button>
-            <button onClick={goToLogin}>Login</button>
-            <button onClick={goToContact}>Contato</button>
+        <header className={style.container}>
+            <button className={style.link} onClick={goToLandpage}>Home</button>
+            <button className={style.link} onClick={goToSignup}>Cadastro</button>
+            <button className={style.link} onClick={goToLogin}>Login</button>
+            <button className={style.link} onClick={goToContact}>Contato</button>
         </header>
     )
 }
