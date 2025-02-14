@@ -1,6 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import Header from "../components/HomeHeader"
+import Footer from "../components/Footer/Footer"
 
 const Landpage = () => {
     const navigate = useNavigate()
@@ -11,10 +12,7 @@ const Landpage = () => {
         <>
             <Header />
 
-            <footer>
-                <h5>Porque nós?</h5>
-                <button content='Sobre nós' onClick={goToAboutUs}/>
-            </footer>
+            <Footer />
         </>
     )
 }

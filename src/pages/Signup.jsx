@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Header from "../components/HomeHeader"
+import Footer from "../components/Footer/Footer"
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -210,7 +211,8 @@ const Signup = () => {
             />
 
             <button type="submit">Cadastrar</button>
-        </form>
+            </form>
+            <Footer />
         </>
         
     )
