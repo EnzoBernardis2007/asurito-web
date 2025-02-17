@@ -1,70 +1,4 @@
-import React, { useState } from "react"
-import { useAuth } from '../../components/AuthProvider'
-import { useNavigate } from "react-router-dom"
-import Header from "../../components/HomeHeader"
-import Footer from "../../components/Footer/Footer"
-
-const Login = () => {
-    const { login } = useAuth()
-    const navigate = useNavigate()
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    })
-
-    const handleChange = (e) => {
-        const { name, value } = e.target
-
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-
-        const response = await fetch('http://localhost:3000/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json', 
-            },
-            body: JSON.stringify(formData)
-        })
-
-        if(response.ok) {
-            const data = await response.json()
-            login(data.token, data.cpf)
-            navigate('/profile')
-        }
-    }
-
-    return (
-        <>
-            <Header />
-            <form onSubmit={handleSubmit}>
-                <label>Email:</label>
-                <input 
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <label>Senha:</label>
-                <input 
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-
-                <button type="submit">Entrar</button>
-            </form>
-
-            {/* <div class="form-container">
+/* <div class="form-container">
 	<p class="title">Login</p>
 	<form class="form">
 		<div class="input-group">
@@ -105,10 +39,4 @@ const Login = () => {
 	<p class="signup">Don't have an account?
 		<a rel="noopener noreferrer" href="#" class="">Sign up</a>
 	</p>
-</div>*/}
-            <Footer />
-        </>
-    )
-}
-
-export default Login
+</div>*/
