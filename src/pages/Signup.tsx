@@ -48,23 +48,23 @@ const Signup: React.FC = () => {
 
     useEffect(() => {
         const getGenders = async () => {
-        try {
-            const response = await fetch(`${url}/getGenders`);
+            try {
+                const response = await fetch(`${url}/getGenders`);
 
-            if (!response.ok) {
-            throw new Error(`HTTP error, status ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error, status ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (Array.isArray(data.gendersList)) {
+                    setGendersList(data.gendersList);
+                } else {
+                    console.error('gendersList não é um array', data);
+                }
+            } catch (error) {
+                console.log('Erro ao buscar os gêneros:', error);
             }
-
-            const data = await response.json();
-
-            if (Array.isArray(data.gendersList)) {
-            setGendersList(data.gendersList);
-            } else {
-            console.error('gendersList não é um array', data);
-            }
-        } catch (error) {
-            console.log('Erro ao buscar os gêneros:', error);
-        }
         };
 
         getGenders();
